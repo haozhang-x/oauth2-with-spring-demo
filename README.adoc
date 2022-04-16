@@ -32,10 +32,11 @@ https://github.com/haozhang-x/oauth2-with-spring-demo/blob/main/oauth2-resource-
 == 客户端配置
 https://github.com/haozhang-x/oauth2-with-spring-demo/blob/main/oauth2-client/src/main/java/com/example/demo/client/config/OAuth2AuthorizedClientConfig.java[OAuth2AuthorizedClientConfig]
 
-== 客户端 获取 Access Token
+== 客户端通过授权服务器获取 Access Token
 https://github.com/haozhang-x/oauth2-with-spring-demo/blob/main/oauth2-client/src/main/java/com/example/demo/client/token/GetOAuth2AccessTokenService.java[GetOAuth2AccessTokenService]
 
-== 客户端 Feign RequestInterceptor
+== 客户端 Feign Client 传递 Bearer Token 
+Feign RequestInterceptor
 https://github.com/haozhang-x/oauth2-with-spring-demo/blob/main/oauth2-client/src/main/java/com/example/demo/client/feign/interceptor/OAuth2FeignRequestInterceptor.java[OAuth2FeignRequestInterceptor]
 
 
