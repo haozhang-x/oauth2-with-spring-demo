@@ -1,0 +1,41 @@
+= OAuth2 demo
+
+OAuth2 集成 Spring 的示例，包含授权服务器、资源服务器、客户端的代码示例。
+
+== oauth2-authorization-server
+授权服务器。使用 spring-authorization-server 搭建
+
+
+
+== oauth2-resource-server
+资源服务器。暴露 messages 接口供外部调用
+
+
+
+== oauth2-client
+客户端。依赖 spring-boot-starter-oauth2-client，通过 AuthorizedClientManager 来进行获取 Access Token。
+在 Feign RequestInterceptor 传递 Bearer Token，实现 FeignClient 调用资源服务器的接口。
+
+
+
+== 启动顺序
+1. oauth2-authorization-server  port：9000
+2. oauth2-resource-server       port：8090
+3. oauth2-client                port：8080
+
+== 授权服务器配置
+AuthorizationServerConfig.java
+
+== 资源服务器配置
+ResourceServerConfig.java
+
+== 客户端配置
+OAuth2AuthorizedClientConfig.java
+
+== 客户端获取 Access Token
+GetOAuth2AccessTokenService.java
+
+== 客户端 Feign RequestInterceptor
+OAuth2FeignRequestInterceptor.java
+
+
