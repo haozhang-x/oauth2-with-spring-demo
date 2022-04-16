@@ -1,4 +1,4 @@
-= OAuth2 demo
+= OAuth2 Demo
 
 OAuth2 集成 Spring 的示例，包含授权服务器、资源服务器、客户端的代码示例。
 
