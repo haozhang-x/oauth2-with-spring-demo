@@ -19,9 +19,18 @@ OAuth2 集成 Spring 的示例，包含授权服务器、资源服务器、客�
 
 
 == 启动顺序
-1. oauth2-authorization-server  port：9000
-2. oauth2-resource-server       port：8090
-3. oauth2-client                port：8080
+1. oauth2-authorization-server  
+
+   port：9000
+
+2. oauth2-resource-server     
+
+   port：8090
+
+3. oauth2-client
+
+   port：8080
+
 
 == 授权服务器配置
 https://github.com/haozhang-x/oauth2-with-spring-demo/blob/main/oauth2-authorization-server/src/main/java/com/example/demo/authorizationserver/config/AuthorizationServerConfig.java[AuthorizationServerConfig]
