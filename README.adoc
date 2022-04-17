@@ -1,4 +1,4 @@
-= OAuth2 Demo
+= OAuth2 With Spring Demo
 
 OAuth2 集成 Spring 的示例，包含授权服务器、资源服务器、客户端的代码示例。
 
@@ -19,9 +19,18 @@ OAuth2 集成 Spring 的示例，包含授权服务器、资源服务器、客�
 
 
 == 启动顺序
-1. oauth2-authorization-server  port：9000
-2. oauth2-resource-server       port：8090
-3. oauth2-client                port：8080
+1. oauth2-authorization-server  
+
+   port：9000
+
+2. oauth2-resource-server     
+
+   port：8090
+
+3. oauth2-client
+
+   port：8080
+
 
 == 授权服务器配置
 https://github.com/haozhang-x/oauth2-with-spring-demo/blob/main/oauth2-authorization-server/src/main/java/com/example/demo/authorizationserver/config/AuthorizationServerConfig.java[AuthorizationServerConfig]
@@ -32,10 +41,11 @@ https://github.com/haozhang-x/oauth2-with-spring-demo/blob/main/oauth2-resource-
 == 客户端配置
 https://github.com/haozhang-x/oauth2-with-spring-demo/blob/main/oauth2-client/src/main/java/com/example/demo/client/config/OAuth2AuthorizedClientConfig.java[OAuth2AuthorizedClientConfig]
 
-== 客户端 获取 Access Token
+== 客户端通过授权服务器获取 Access Token
 https://github.com/haozhang-x/oauth2-with-spring-demo/blob/main/oauth2-client/src/main/java/com/example/demo/client/token/GetOAuth2AccessTokenService.java[GetOAuth2AccessTokenService]
 
-== 客户端 Feign RequestInterceptor
+== 客户端 Feign Client 传递 Bearer Token 
+Feign RequestInterceptor
 https://github.com/haozhang-x/oauth2-with-spring-demo/blob/main/oauth2-client/src/main/java/com/example/demo/client/feign/interceptor/OAuth2FeignRequestInterceptor.java[OAuth2FeignRequestInterceptor]
 
 
