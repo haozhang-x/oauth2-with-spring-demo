@@ -18,10 +18,8 @@ import org.springframework.security.config.annotation.web.configuration.OAuth2Au
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
-import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationConsentService;
-import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService;
-import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
-import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
+import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
+import org.springframework.security.oauth2.server.authorization.*;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
@@ -35,10 +33,23 @@ import java.util.UUID;
 
 @Configuration(proxyBeanMethods = false)
 public class AuthorizationServerConfig {
-
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
+        //个性化 JWT token
+        http.setSharedObject(OAuth2TokenCustomizer.class, (OAuth2TokenCustomizer<JwtEncodingContext>) context -> {
+            // 添加一个自定义头
+            context.getHeaders().header("client-id", context.getRegisteredClient().getClientId());
+            context.getHeaders().algorithm(SignatureAlgorithm.ES256);
+        });
+
+      /*  JwtGenerator jwtGenerator = http.getSharedObject(JwtGenerator.class);
+        jwtGenerator.setJwtCustomizer(context -> {
+            // 添加一个自定义头
+            context.getHeaders().header("client-id", context.getRegisteredClient().getClientId());
+            context.getHeaders().algorithm(SignatureAlgorithm.ES256);
+        });*/
+
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
         return http.build();
     }
@@ -82,7 +93,7 @@ public class AuthorizationServerConfig {
 
     @Bean
     public JWKSource<SecurityContext> jwkSource() {
-        RSAKey rsaKey = Jwks.generateRsa();
+        RSAKey rsaKey = Jwks.getRSAKey();
         JWKSet jwkSet = new JWKSet(rsaKey);
         return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
     }
@@ -91,6 +102,13 @@ public class AuthorizationServerConfig {
     public ProviderSettings providerSettings() {
         return ProviderSettings.builder().issuer("http://localhost:9000").build();
     }
+
+
+    @Bean
+    public TokenSettings tokenSettings() {
+        return TokenSettings.builder().build();
+    }
+
 
     @Bean
     public EmbeddedDatabase embeddedDatabase() {

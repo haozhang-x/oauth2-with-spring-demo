@@ -16,6 +16,7 @@ dependencies {
     implementation "org.springframework.security:spring-security-oauth2-authorization-server:${oauth2AuthorizationServerVersion}"
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.bouncycastle:bcprov-jdk18on:1.71'
     runtimeOnly 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
