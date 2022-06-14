@@ -13,6 +13,7 @@ ext {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 

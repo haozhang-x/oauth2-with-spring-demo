@@ -1,5 +1,15 @@
 server:
   port: 9000
+spring:
+  application:
+    name: authorization-server
+
+  sleuth:
+    # 采样率的概率，100%采样
+    sampler:
+      probability: 1.0
+      # 每秒采样数字最高为1000
+      rate: 1000
 
 logging:
   level:
@@ -8,3 +18,4 @@ logging:
     org.springframework.security: INFO
     org.springframework.security.oauth2: DEBUG
 #    org.springframework.boot.autoconfigure: DEBUG
+
