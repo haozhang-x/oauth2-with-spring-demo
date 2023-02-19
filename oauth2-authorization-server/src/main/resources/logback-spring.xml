@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="true">
 
+    <springProperty scope="context" name="env" source="env"/>
     <!--日志路径-->
     <property name="LOG_PATH" value="/var/tmp/oauth2-authorization-server"/>
     <!--日志文件-->
@@ -16,9 +17,39 @@
     <!--引入spring boot 提供的logback的base日志配置-->
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
 
+    <appender name="GELF" class="de.siegmar.logbackgelf.GelfUdpAppender" >
+        <graylogHost>localhost</graylogHost>
+        <graylogPort>12201</graylogPort>
+        <maxChunkSize>508</maxChunkSize>
+        <useCompression>true</useCompression>
+        <messageIdSupplier class="de.siegmar.logbackgelf.MessageIdSupplier"/>
+        <encoder class="de.siegmar.logbackgelf.GelfEncoder">
+            <originHost>localhost</originHost>
+            <includeRawMessage>true</includeRawMessage>
+            <includeMarker>true</includeMarker>
+            <includeMdcData>true</includeMdcData>
+            <includeCallerData>true</includeCallerData>
+            <includeRootCauseData>true</includeRootCauseData>
+            <includeLevelName>true</includeLevelName>
+            <shortPatternLayout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>${FILE_LOG_PATTERN}</pattern>
+            </shortPatternLayout>
+            <fullPatternLayout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>${FILE_LOG_PATTERN}</pattern>
+            </fullPatternLayout>
+            <numbersAsString>false</numbersAsString>
+            <staticField>app_name:backend</staticField>
+            <staticField>env:${env}</staticField>
+            <staticField>os_arch:${os.arch}</staticField>
+            <staticField>os_name:${os.name}</staticField>
+            <staticField>os_version:${os.version}</staticField>
+        </encoder>
+    </appender>
+
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
+<!--        <appender-ref ref="GELF" />-->
     </root>
 
     <logger name="org.springframework.boot.actuate.endpoint.jmx" level="WARN"/>

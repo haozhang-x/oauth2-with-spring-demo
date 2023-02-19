@@ -1,5 +1,5 @@
 server:
-  port: 9000
+  port: 9080
 spring:
   application:
     name: authorization-server
@@ -10,6 +10,7 @@ spring:
       probability: 1.0
       # 每秒采样数字最高为1000
       rate: 1000
+env: dev
 
 logging:
   level:

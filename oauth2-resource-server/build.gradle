@@ -1,11 +1,16 @@
+plugins {
+    id 'maven-publish'
+//    id "com.jfrog.artifactory" version "4.28.3"
+    id 'com.google.cloud.tools.jib' version '3.3.1'
+}
+archivesBaseName = 'oauth2-resource-server'
+group = 'com.example'
+version = '1.0.0-SNAPSHOT'
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
-}
-
-repositories {
-    mavenCentral()
 }
 
 dependencies {
@@ -17,11 +22,29 @@ dependencies {
 
     implementation 'org.springframework.cloud:spring-cloud-sleuth-zipkin'
     implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
+
+jib {
+    from.image = "eclipse-temurin:11-jdk"
+    to {
+        image = "localhost:5000/library/${project.name}"
+        auth {
+            username = "${harbor_username}"
+            password = "${harbor_password}"
+        }
+        allowInsecureRegistries = true
+    }
+    container {
+        jvmFlags = ['-Dmy.property=example.value', '-Xms512m', '-Xdebug']
+//        mainClass = ""
+        ports = ["8080", "8089"]
+        format = "Docker"
+    }
 }
